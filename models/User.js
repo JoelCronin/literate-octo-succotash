@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+const {Schema, model, Types} = require('mongoose');
 
-const validateEmail = (email) => {
-    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return re.test(email);
-  };
+// const validateEmail = (email) => {
+//     const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+//     return re.test(email);
+//   };
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     username: { 
         type: String, 
         unique: true,
@@ -16,18 +16,18 @@ const userSchema = new mongoose.Schema({
         type: String, 
         unique: true,
         required: true,
-        validate: [validateEmail, "Please enter a valid email"],
-        match: [
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            "Please fill a valid email address",
-          ],
+        // validate: [validateEmail, "Please enter a valid email"],
+        // match: [
+        //     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        //     "Please fill a valid email address",
+        //   ],
     },
     thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
     friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     }
 );
 
-const User =  mongoose.model('User', userSchema);
+const User =  model('User', userSchema);
 
 const handleError = (err) => console.error(err);
 
@@ -38,7 +38,8 @@ User.find({}).exec((err, collection) => {
     if (collection.length === 0) {
       return User.insertMany(
         [
-//ADD SEEDS HERE
+          { username: 'Joel', email: 'joel@test.com'},
+          { username: 'Sophie', email: 'sophie@test.com',}
         ],
         (insertError) =>
           insertError ? handleError(insertError) : console.log('Inserted')

@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 const reactionSchema = require ('./Reaction')
 
 
 
-const thoughtSchema = new mongoose.Schema({
+const thoughtSchema = new Schema({
     thoughtText: { 
         type: String, 
         required: true,
@@ -18,11 +18,11 @@ const thoughtSchema = new mongoose.Schema({
         required: true, 
     },
 
-    reactions: [reactionSchema],
+    // reactions: [reactionSchema],
     }
 );
 
-const Thought =  mongoose.model('Thoughts', thoughtSchema);
+const Thought =  model('Thoughts', thoughtSchema);
 
 const handleError = (err) => console.error(err);
 
@@ -33,7 +33,8 @@ Thought.find({}).exec((err, collection) => {
     if (collection.length === 0) {
       return Thought.insertMany(
         [
-//ADD SEEDS HERE
+          {thoughtText: 'I like that', username: 'Joel'},
+          {thoughtText: 'I like that very much', username: 'Sophie'}
         ],
         (insertError) =>
           insertError ? handleError(insertError) : console.log('Inserted')
