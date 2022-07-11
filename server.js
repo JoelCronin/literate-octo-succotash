@@ -34,6 +34,19 @@ app.get('/api/users/:id', (req, res) => {
   });
 });
 
+// Create new User
+app.post('/api/users', (req, res) => {
+  const newUser = new User({username: req.body.username, email: req.body.email});
+  newUser.save();
+  if (newUser) {
+    res.status(200).json(newUser);
+  } else {
+    console.log('Uh Oh, something went wrong');
+    res.status(500).json({ message: 'something went wrong' });
+  }
+});
+
+
 //Get all Thoughts
 app.get('/api/thoughts', (req, res) => {
   Thought.find({}, (err, result) => {
@@ -57,6 +70,20 @@ app.get('/api/thoughts/:id', (req, res) => {
     }
   });
 });
+
+// Create new Thought
+app.post('/api/thoughts', (req, res) => {
+  const newUser = new Thought({thoughtText: req.body.thoughtText, username: req.body.username});
+  newUser.save();
+  if (newUser) {
+    res.status(200).json(newUser);
+  } else {
+    console.log('Uh Oh, something went wrong');
+    res.status(500).json({ message: 'something went wrong' });
+  }
+});
+
+
 
 
 
