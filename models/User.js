@@ -24,8 +24,18 @@ const userSchema = new Schema({
     },
     thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
     friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    },
+    {
+      toJSON: {
+        virtuals: true,
+      },
+      id: false,
     }
 );
+
+userSchema.virtual('friendcount').get(function () {
+  return this.friends.length;
+});
 
 const User =  model('User', userSchema);
 
@@ -35,10 +45,11 @@ User.find({}).exec((err, collection) => {
     if (err) {
       return handleError(err);
     }
-    if (collection.length === 0) {
+    if (collection) {
+      User.deleteMany({});
       return User.insertMany(
         [
-          { username: 'Joel', email: 'joel@test.com'},
+          { username: 'Joel', email: 'joel@test.com', thoughts: ["62cd6e621b0bf976d35dcd9a"], },
           { username: 'Sophie', email: 'sophie@test.com',}
         ],
         (insertError) =>

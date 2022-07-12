@@ -1,7 +1,26 @@
-const { Schema, model } = require('mongoose');
-const reactionSchema = require ('./Reaction')
+const { Schema, Types, model } = require('mongoose');
 
 
+const reactionSchema = new Schema({
+    reactionId: { 
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId(),
+    },
+    reactionBody: {
+        type: String, 
+        required: true,
+        maxlength: 280,
+    },
+    username: { 
+        type: String, 
+        required: true, 
+    },
+    createdAt: {
+        type: Date, 
+        default: Date.now
+    },
+    },
+);
 
 const thoughtSchema = new Schema({
     thoughtText: { 
@@ -18,11 +37,21 @@ const thoughtSchema = new Schema({
         required: true, 
     },
 
-    // reactions: [reactionSchema],
+    reactions: [reactionSchema],
+    },
+    {
+      toJSON: {
+        virtuals: true,
+      },
+      id: false,
     }
 );
 
-const Thought =  model('Thoughts', thoughtSchema);
+thoughtSchema.virtual('reactionCount').get(function (){
+  return this.reactions.length
+});
+
+const Thought =  model('Thought', thoughtSchema);
 
 const handleError = (err) => console.error(err);
 
@@ -30,7 +59,8 @@ Thought.find({}).exec((err, collection) => {
     if (err) {
       return handleError(err);
     }
-    if (collection.length === 0) {
+    if (collection) {
+      Thought.deleteMany({});
       return Thought.insertMany(
         [
           {thoughtText: 'I like that', username: 'Joel'},
