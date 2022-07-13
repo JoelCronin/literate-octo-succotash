@@ -1,5 +1,6 @@
 const {Schema, model, Types} = require('mongoose');
 
+//Function to validate Email
 const validateEmail = (email) => {
     const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email);
@@ -22,6 +23,8 @@ const userSchema = new Schema({
             "Please fill a valid email address",
           ],
     },
+
+    //Allows users to be linked to other users and thoughts
     thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
     friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     },

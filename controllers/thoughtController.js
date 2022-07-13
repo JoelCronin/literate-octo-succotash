@@ -1,11 +1,14 @@
 const { Thought, User } = require('../models');
 
+//Collection of functions that perform the CRUD operations on the Thought Collection
+
 module.exports = {
     getAllThoughts(req, res) {
         Thought.find()
         .then((thoughts) => res.json(thoughts))
         .catch((err) => res.status(500).json(err));
     },
+
     getSingleThought(req, res) {
         Thought.findOne({_id: req.params.thoughtId})
         .then((thought) => 
@@ -15,6 +18,7 @@ module.exports = {
     )
     .catch((err) => res.status(500).json(err));
     },
+
     createThought(req, res) {
         Thought.create(req.body)
         .then((thought) => {
@@ -36,6 +40,7 @@ module.exports = {
             res.status(500).json(err);
           });
     },
+
     updateThought(req, res) {
         Thought.findOneAndUpdate(
             {_id: req.params.thoughtId},
@@ -49,6 +54,7 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
+
     deleteThought(req, res) {
         Thought.findOneAndRemove(
             {_id: req.params.thoughtId}, 
@@ -60,6 +66,7 @@ module.exports = {
     )
     .catch((err) => res.status(500).json(err));
     },
+
     addReaction(req, res) {
         Thought.findOneAndUpdate(
             {_id: req.params.thoughtId},
@@ -76,6 +83,7 @@ module.exports = {
     )
     .catch((err) => res.status(500).json(err));
     },
+
     deleteReaction(req, res) {
         Thought.findOneAndUpdate(
             {_id: req.params.thoughtId},
