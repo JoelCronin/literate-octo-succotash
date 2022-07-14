@@ -46,5 +46,5 @@ This application is covered under the following license: The Unlicence
 
 ## Links
 
-I have created a walkthrough video that dem onstrates the functionality of the application which can be viewed by [clicking here](https://drive.google.com/file/d/1Knq7uuc68J3UKfxpvLlWzNwNC3UIdwLo/view)
+I have created a walkthrough video that demonstrates the functionality of the application which can be viewed by [clicking here](https://drive.google.com/file/d/1Knq7uuc68J3UKfxpvLlWzNwNC3UIdwLo/view)
 
